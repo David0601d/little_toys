@@ -1,0 +1,95 @@
+身分證驗證程式
+
+
+
+目標功能：
+	user輸入一段身分證字號，判斷輸入是真或假，結果只會為True or False   OK
+	
+	產生一段身分證字號
+
+
+
+有一個檢查碼的計算公式，可以來檢查是否符合檢查碼，步驟如下：
+
+(1) 先依照上表將英文字母代號換為數字。OK
+
+(2) 由左至右，第一位乘1，第二位乘9，第三位乘8，第四位乘7；以此類推最後一位乘1。OK
+
+(3) 將各位相對數字所乘之積相加。OK
+
+(4) 將上式(3)所得之和除以10求得餘數。OK
+
+(5) 以10減去上式(4)所得餘數即為檢查碼。
+
+
+
+////////////////////////////////////////////
+隨機產生身分證:
+		1.產生英文
+		2.亂數產生性別碼
+		3.亂數產生編號1~7
+		4.產生檢查碼
+
+方法(1)將所有數字加總並除以10，若餘數0則True;不為0則False。若用它來產生身分證那麼效率會極差，所以用檢查碼方式比較優
+
+方法(2)不加上最後一碼的加總除以10之餘數，以10減去得檢查碼
+e.g R123456783
+    加總:167，167%10=7，10-7=3(檢查碼) ，若等於
+不加上最後一碼來計算之方法，雖然計算上稍稍麻煩，
+但產生亂數時計算較快。
+
+
+
+  //想要產生一個亂數只要選一個引擎和一個分佈
+  random_device rd;// 種子產生器
+  default_random_engine gen = default_random_engine(rd());
+  uniform_real_distribution<int> dist(1, 10);//使用平均分佈
+
+
+
+#include <iostream>
+#include <random>
+using namespace std;
+int main(){
+ //想要產生一個亂數只要選一個引擎和一個分佈
+ random_device rd;// 種子產生器
+ default_random_engine gen = std::default_random_engine(rd());
+ uniform_int_distribution<int> dis(1,10); //整數平均分布
+
+ cout << "some random numbers between 1 and 10: ";
+ for (int i=0; i<10; ++i)
+     cout << dis(gen) << " ";
+
+  return 0;
+}
+
+Do you want to verify ID or generate ID
+
+#include <iostream>
+#include <random>
+int main(){
+  std::random_device rd;
+
+  /* 梅森旋轉演算法 */
+  std::mt19937 generator( rd() ); //亂數產生器。「計算」出一連串類似隨機的亂數
+
+  std::uniform_int_distribution<int> dist(0, 10);
+  int x = dist(generator);
+  std::cout << "x = " << x << std::endl;
+  return 0;
+}
+
+  //TODO:
+  //前10碼總和除以10的餘數用10減去即檢查碼，得出後存入陣列最後一位即完成身分證
+
+
+
+
+T144953798
+N242132752
+A106264929
+E200609895
+F283137382
+
+BUG
+I64183781
